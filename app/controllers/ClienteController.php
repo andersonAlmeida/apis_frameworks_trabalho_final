@@ -113,20 +113,33 @@ class ClienteController {
 
         foreach ($cliente as $c) {
             if( password_verify( $p['senha'], $c->senha ) ) {
+                date_default_timezone_set('America/Sao_Paulo');
+
+                $issuedAt = time();
+
                 $token = array(
                     'user' => strval($c->id),
-                    'nome' => $c->nome
+                    'name' => $c->nome,
+                    'date' => date("Y-m-d H:i:s"),
+                    'iat' => $issuedAt,
+                    'nbf' => $issuedAt,
+                    'exp' => $issuedAt + 14400
                 );
 
                 $jwt = JWT::encode($token, $sKey);
 
-                return $response->withJson(["token" => $jwt], 201)
+                return $response->withJson([
+                    "token" => $jwt,
+                    "nome" => $c->nome,
+                    "sobrenome" => $c->sobrenome,
+                    "codigo" => $c->id,
+                    "email" => $c->email
+                ], 200)
                     ->withHeader('Content-type', 'application/json');
             } else {
                 return $response->withJson(["resposta"=> false, "msg" => "Usuário ou senha inválidos"], 200);
             }
         }
-
     }
 }
 
