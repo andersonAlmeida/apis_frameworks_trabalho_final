@@ -10,6 +10,11 @@ class ProdutoController {
     public static function listar( $request, $response, $args ) {
         $produtos = ProdutoModel::with(['categoria', 'marca', 'imagem', 'fornecedor'])->orderBy('id')->get();
 
+        foreach ($produtos as $produto) {
+            $path = 'http://localhost:8000/_assets/uploads/' . $produto->imagem[0]->imagem;
+            $produto->imagem[0]->imagem = $path;
+        }
+
         return $response->withJson($produtos, 200);
     }
 
