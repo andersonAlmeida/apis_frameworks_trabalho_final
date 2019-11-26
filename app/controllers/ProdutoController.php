@@ -2,6 +2,7 @@
 namespace Controllers;
 
 use Models\ProdutoModel;
+use \stdClass;
 // use \Firebase\JWT\JWT;
 
 class ProdutoController {
@@ -11,8 +12,10 @@ class ProdutoController {
         $produtos = ProdutoModel::with(['categoria', 'marca', 'imagem', 'fornecedor'])->orderBy('id')->get();
 
         foreach ($produtos as $produto) {
-            $path = 'http://localhost:8000/_assets/uploads/' . $produto->imagem[0]->imagem;
-            $produto->imagem[0]->imagem = $path;
+            if (count($produto->imagem) > 0) {
+                $path = "https://apis-frameworks-admin.herokuapp.com/_assets/uploads/" . $produto->imagem[0]->imagem;
+                $produto->imagem[0]->imagem = $path;
+            }
         }
 
         return $response->withJson($produtos, 200);
