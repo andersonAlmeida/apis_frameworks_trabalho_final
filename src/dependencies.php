@@ -39,6 +39,11 @@ return function (App $app) {
         return $capsule;
     };
 
+    $container['sKey'] = function ($c) {
+        $settings = $c->get('settings')['jwt'];
+        return $settings['secret'];
+    };
+
     // Controllers
     // $container[Controllers\AdministradorController::class] = function ($c) {
     //     $table = $c->get('db')->table('administrador');

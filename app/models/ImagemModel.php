@@ -8,7 +8,7 @@
         public $timestamps = false;
 
         public function produto() {
-            return $this->belongsTo('Models\ProdutoModel', 'id', 'id_produto');
+            return $this->belongsTo('Models\ProdutoModel');
         }
     }
 ?>

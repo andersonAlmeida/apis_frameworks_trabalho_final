@@ -10,10 +10,12 @@ class ProdutoController {
 
     public static function listar( $request, $response, $args ) {
         $produtos = ProdutoModel::with(['categoria', 'marca', 'imagem', 'fornecedor'])->orderBy('id')->get();
+        // $imgPath = "https://apis-frameworks-admin.herokuapp.com/_assets/uploads/";
+        $imgPath = "http://localhost:8000/_assets/uploads/";
 
         foreach ($produtos as $produto) {
             if (count($produto->imagem) > 0) {
-                $path = "https://apis-frameworks-admin.herokuapp.com/_assets/uploads/" . $produto->imagem[0]->imagem;
+                $path = $imgPath . $produto->imagem[0]->imagem;
                 $produto->imagem[0]->imagem = $path;
             }
         }

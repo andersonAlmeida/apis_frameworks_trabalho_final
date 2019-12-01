@@ -14,15 +14,14 @@ use Slim\Http\Response;
 
 use Controllers\ProdutoController;
 use Controllers\ClienteController;
+use Controllers\PedidoController;
+use Controllers\EnderecoController;
 
 return function (App $app) {
     $container = $app->getContainer();
 
     // Cliente
     $app->group('/clientes', function() use ($app, $container) {
-        // $app->get('[/]', function($request, $response, $args) {
-        //     return ClienteController::listar($request, $response, $args);
-        // });
 
         $app->post('[/]', function($request, $response, $args) {
             return ClienteController::inserir($request, $response, $args);
@@ -36,17 +35,39 @@ return function (App $app) {
             return ClienteController::atualizar($request, $response, $args);
         });
 
-        // $app->delete('/{id}[/]', function($request, $response, $args) {
-        //     return ClienteController::deletar($request, $response, $args);
-        // });
-
         $app->post('/login[/]', function($request, $response, $args) use ($app, $container){
             $sk = $container->get('settings')['jwt']['secret'];
             return ClienteController::login($request, $response, $args, $sk);
         });
+
+        $app->get('/fblogin/{fbid}[/]', function($request, $response, $args) use ($app, $container){
+            $sk = $container->get('settings')['jwt']['secret'];
+            return ClienteController::buscarPorIdFb($request, $response, $args, $sk);
+        });
+
+        // Endereço
+        $app->get('/enderecos/{id}[/]', function($request, $response, $args) {
+            return EnderecoController::listar($request, $response, $args);
+        });
+
+        $app->delete('/enderecos/{id}[/]', function($request, $response, $args) {
+            return EnderecoController::deletar($request, $response, $args);
+        });
+
+        $app->get('/endereco/{userid}/{id}[/]', function($request, $response, $args) {
+            return EnderecoController::buscarPorId($request, $response, $args);
+        });
+
+        $app->post('/enderecos[/]', function($request, $response, $args) {
+            return EnderecoController::inserir($request, $response, $args);
+        });
+
+        $app->put('/enderecos/{userid}/{id}[/]', function($request, $response, $args) {
+            return EnderecoController::atualizar($request, $response, $args);
+        });
     });
 
-    // Cupom
+    // produtos
     $app->group('/produtos', function() use ($app, $container) {
         $app->get('[/]', function($request, $response, $args) {
             return ProdutoController::listar($request, $response, $args);
@@ -55,18 +76,16 @@ return function (App $app) {
         $app->get('/{id}[/]', function($request, $response, $args) {
             return ProdutoController::buscarPorId($request, $response, $args);
         });
+    });
+
+    // pedidos
+    $app->group('/pedidos', function() use ($app, $container) {
+        $app->get('/{id}[/]', function($request, $response, $args) {
+            return PedidoController::listar($request, $response, $args);
+        });
 
         $app->post('[/]', function($request, $response, $args) {
-            return ProdutoController::inserir($request, $response, $args);
-        });
-
-
-        $app->put('/{id}[/]', function($request, $response, $args) {
-            return ProdutoController::atualizar($request, $response, $args);
-        });
-
-        $app->delete('/{id}[/]', function($request, $response, $args) {
-            return ProdutoController::deletar($request, $response, $args);
+            return PedidoController::inserir($request, $response, $args);
         });
     });
 

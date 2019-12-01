@@ -7,7 +7,7 @@
         protected $table = 'produto';
         // protected $fillable = ['preco', 'nome', 'descricao', 'desconto', 'estoque', 'id_marca', 'id_categoria', 'ativo'];
         public $timestamps = false;
-        protected $primaryKey = 'id';
+        // protected $primaryKey = 'id';
 
         public function categoria() {
             return $this->hasOne('Models\CategoriaModel', 'id', 'id_categoria');
@@ -23,6 +23,10 @@
 
         public function imagem() {
             return $this->hasMany('Models\ImagemModel', 'id_produto');
+        }
+
+        public function pedido() {
+            return $this->hasMany('Models\PedidoModel');
         }
     }
 ?>
