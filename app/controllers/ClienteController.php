@@ -156,8 +156,8 @@ class ClienteController {
                     'date' => date("Y-m-d H:i:s"),
                     'iat' => $issuedAt,
                     'nbf' => $issuedAt,
-                    'exp' => $issuedAt + 60
-                    // 'exp' => $issuedAt + 14400
+                    'exp' => $issuedAt + 14400
+                    // 'exp' => $issuedAt + 60
                 );
 
                 $jwt = JWT::encode($token, $sKey);

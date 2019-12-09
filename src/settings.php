@@ -22,7 +22,7 @@ return [
             'host' => 'localhost',
             'database' => 'apis_e_frameworks_2019-2-n',
             'username' => 'postgres',
-            'password' => 'postgres',
+            'password' => 'postgresql',
             // 'host' => 'ec2-107-22-160-185.compute-1.amazonaws.com',
             // 'database' => 'dal0v7te5lb4ms',
             // 'username' => 'bdmueihigievke',

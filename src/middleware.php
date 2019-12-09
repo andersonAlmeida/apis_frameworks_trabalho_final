@@ -8,7 +8,7 @@ return function (App $app) {
     $app->add(new Tuupola\Middleware\JwtAuthentication([
         "path" => ["/clientes", "/pedidos"],
         "header" => "Authorization",
-        "ignore" => ["/produtos", "/clientes/login"],
+        "ignore" => ["/produtos", "/clientes/login", "/clientes/fblogin", "/clientes"],
         "secure" => false,
         "secret" => $app->getContainer()->get('settings')['jwt']['secret'],
         "error" => function ($response, $arguments) {
