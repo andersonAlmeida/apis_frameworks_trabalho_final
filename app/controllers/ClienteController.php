@@ -93,7 +93,8 @@ class ClienteController {
         $id = $args['id'];
 
         try {
-            $cliente = ClienteModel::find($id);
+            // $cliente = ClienteModel::find($id);
+            $cliente = ClienteModel::select('nome', 'sobrenome', 'email', 'cpf', 'rg', 'nascimento', 'id')->where('id', $id)->first();
 
             return $response->withJson($cliente, 200);
         } catch(Exception $e) {
@@ -155,7 +156,8 @@ class ClienteController {
                     'date' => date("Y-m-d H:i:s"),
                     'iat' => $issuedAt,
                     'nbf' => $issuedAt,
-                    'exp' => $issuedAt + 14400
+                    'exp' => $issuedAt + 60
+                    // 'exp' => $issuedAt + 14400
                 );
 
                 $jwt = JWT::encode($token, $sKey);

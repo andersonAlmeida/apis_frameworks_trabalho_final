@@ -17,6 +17,8 @@ use Controllers\ClienteController;
 use Controllers\PedidoController;
 use Controllers\EnderecoController;
 
+header('Access-Control-Allow-Origin: *');
+
 return function (App $app) {
     $container = $app->getContainer();
 

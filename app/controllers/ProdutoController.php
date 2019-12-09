@@ -9,7 +9,9 @@ class ProdutoController {
     public function __construct() {}
 
     public static function listar( $request, $response, $args ) {
-        $produtos = ProdutoModel::with(['categoria', 'marca', 'imagem', 'fornecedor'])->orderBy('id')->get();
+        $produtos = ProdutoModel::with(['categoria', 'marca', 'imagem', 'fornecedor'])
+            ->orderBy('estoque', 'desc')->get();
+
         // $imgPath = "https://apis-frameworks-admin.herokuapp.com/_assets/uploads/";
         $imgPath = "http://localhost:8000/_assets/uploads/";
 

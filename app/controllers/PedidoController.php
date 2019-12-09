@@ -2,6 +2,7 @@
 namespace Controllers;
 
 use Models\PedidoModel;
+use Models\ProdutoModel;
 use Models\ProdutoPedidoModel;
 use \stdClass;
 // use \Firebase\JWT\JWT;
@@ -34,8 +35,14 @@ class PedidoController {
                 "quantidade" => $value["quantidade"]
             ];
 
-            // var_dump($pedido_produto);
-            // die();
+            echo "Quantidade >>> \n";
+            var_dump($value["quantidade"]);
+
+            echo "id >>> \n";
+            var_dump($pedido["id"]);
+
+            // atualiza o estoque do produto
+            ProdutoModel::where('id', $value["id"])->decrement('estoque', $value["quantidade"]);
 
             ProdutoPedidoModel::create($pedido_produto);
         }
@@ -45,7 +52,7 @@ class PedidoController {
 
     public static function listar( $request, $response, $args ) {
         $id = intval($args['id']);
-        $pedidos = PedidoModel::where('id_cliente', $id)->with(['produto'])->get();
+        $pedidos = PedidoModel::where('id_cliente', $id)->get();
 
         return $response->withJson($pedidos, 200);
     }
